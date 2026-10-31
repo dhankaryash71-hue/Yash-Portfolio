@@ -123,7 +123,7 @@ export const portfolioData = {
         "Secure user authentication with responsive theme switching (light & dark)",
       ],
       technologies: ["React", "Node.js", "Express", "Socket.IO", "PostgreSQL", "Prisma"],
-      liveDemo: "https://shado-your-space.vercel.app/chat",
+      liveDemo: "https://shado-your-space.vercel.app/",
       github: "https://github.com/dhankaryash71-hue/SHADO--YOUR-SPACE",
       accentColor: "from-purple-600 via-pink-600 to-blue-600",
       imagePlaceholderPath: "/projects/shado.png",

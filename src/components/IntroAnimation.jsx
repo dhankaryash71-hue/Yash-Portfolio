@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 export default function IntroAnimation({ onComplete }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -54,16 +54,6 @@ export default function IntroAnimation({ onComplete }) {
           {/* Subtle Ambient Glows */}
           <div className="absolute w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[120px] pointer-events-none -top-20 -left-20 animate-pulse" />
           <div className="absolute w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none -bottom-20 -right-20 animate-pulse" />
-
-          {/* Skip Button */}
-          <button
-            onClick={handleFinish}
-            className="absolute top-6 right-6 px-4 py-1.5 text-xs font-medium text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-white/10 rounded-full transition-all flex items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
-            aria-label="Skip introduction animation"
-          >
-
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
 
           <div className="max-w-xl w-full text-center space-y-6 relative z-10">
             {/* Top Badge */}
