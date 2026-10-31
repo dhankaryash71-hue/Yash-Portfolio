@@ -61,7 +61,7 @@ export default function IntroAnimation({ onComplete }) {
             className="absolute top-6 right-6 px-4 py-1.5 text-xs font-medium text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-white/10 rounded-full transition-all flex items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
             aria-label="Skip introduction animation"
           >
-            <span>Skip Intro</span>
+
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
 
@@ -91,9 +91,8 @@ export default function IntroAnimation({ onComplete }) {
                       delay: index * 0.045,
                       ease: [0.2, 0.65, 0.3, 0.9],
                     }}
-                    className={`inline-block ${
-                      char === " " ? "w-3 sm:w-5" : ""
-                    } bg-gradient-to-r from-white via-slate-100 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(168,85,247,0.4)]`}
+                    className={`inline-block ${char === " " ? "w-3 sm:w-5" : ""
+                      } bg-gradient-to-r from-white via-slate-100 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(168,85,247,0.4)]`}
                   >
                     {char}
                   </motion.span>
