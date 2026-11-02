@@ -116,8 +116,8 @@ export default function Navbar({ activeSection }) {
             })}
           </nav>
 
-          {/* Right Action Buttons */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Right Action Buttons for Desktop */}
+          <div className="hidden lg:flex items-center gap-3">
             <a
               href="/Yash_Dhankar_Resume.pdf"
               download="Yash_Dhankar_Resume.pdf"
@@ -138,23 +138,24 @@ export default function Navbar({ activeSection }) {
             </a>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <div className="flex sm:hidden items-center gap-2">
+          {/* Mobile Menu Toggle Button (Visible on all screens below lg) */}
+          <div className="flex lg:hidden items-center gap-2">
             <a
               href="/Yash_Dhankar_Resume.pdf"
               download="Yash_Dhankar_Resume.pdf"
-              className="p-2 rounded-lg bg-slate-800/80 border border-white/10 text-purple-400 hover:text-white"
+              className="p-2 rounded-lg bg-slate-800/80 border border-white/10 text-purple-400 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
               aria-label="Download Resume"
+              title="Download Resume"
             >
               <FileDown className="w-4 h-4" />
             </a>
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg bg-slate-800/80 border border-white/10 text-slate-200 hover:text-white hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
+              onClick={() => setIsOpen((prev) => !prev)}
+              className="p-2 rounded-lg bg-slate-800/90 border border-white/15 text-slate-200 hover:text-white hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 active:scale-95 transition-all cursor-pointer"
               aria-expanded={isOpen}
               aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
             >
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isOpen ? <X className="w-5 h-5 text-purple-400" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>

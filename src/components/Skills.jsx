@@ -133,18 +133,21 @@ export default function Skills() {
         </div>
 
         {/* Categories and Cards */}
-        <div className="space-y-14">
-          <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.25 }}
+            className="space-y-14"
+          >
             {filteredCategories.map((category) => {
               const IconComp = categoryIcons[category.id] || Layers;
 
               return (
-                <motion.div
+                <div
                   key={category.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.35 }}
                   className="space-y-6"
                 >
                   {/* Category Header */}
@@ -215,11 +218,11 @@ export default function Skills() {
                       );
                     })}
                   </div>
-                </motion.div>
+                </div>
               );
             })}
-          </AnimatePresence>
-        </div>
+          </motion.div>
+        </AnimatePresence>
 
       </div>
     </section>

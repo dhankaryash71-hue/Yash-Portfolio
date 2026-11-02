@@ -8,6 +8,7 @@ export default function MobileBottomNav({ activeSection }) {
     { id: 'about', label: 'About', icon: User, href: '#about' },
     { id: 'skills', label: 'Skills', icon: Code2, href: '#skills' },
     { id: 'projects', label: 'Projects', icon: Layers, href: '#projects' },
+    { id: 'experience', label: 'Experience', icon: Briefcase, href: '#experience' },
     { id: 'contact', label: 'Contact', icon: MessageSquare, href: '#contact' },
   ];
 
@@ -27,7 +28,7 @@ export default function MobileBottomNav({ activeSection }) {
 
   // Determine which bottom item is active, mapping secondary sections gracefully
   const getActiveTab = () => {
-    if (['experience', 'education'].includes(activeSection)) return 'about';
+    if (['education'].includes(activeSection)) return 'experience';
     if (['dsa'].includes(activeSection)) return 'skills';
     return activeSection;
   };
@@ -37,9 +38,9 @@ export default function MobileBottomNav({ activeSection }) {
   return (
     <nav
       aria-label="Mobile Bottom Navigation"
-      className="fixed bottom-3 inset-x-3 sm:bottom-4 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[380px] z-40 lg:hidden"
+      className="fixed bottom-2.5 inset-x-2 sm:bottom-4 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[460px] z-40 lg:hidden"
     >
-      <div className="relative p-1.5 rounded-2xl bg-[#0a0d1e]/90 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/80 flex items-center justify-around">
+      <div className="relative p-1 rounded-2xl bg-[#0a0d1e]/92 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/90 flex items-center justify-between">
         
         {/* Subtle Ambient Glow inside dock */}
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-600/10 via-indigo-600/10 to-blue-600/10 pointer-events-none" />
@@ -53,7 +54,7 @@ export default function MobileBottomNav({ activeSection }) {
               key={item.id}
               href={item.href}
               onClick={(e) => scrollTo(e, item.href)}
-              className={`relative flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all duration-200 select-none flex-1 touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
+              className={`relative flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 select-none flex-1 touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
                 isActive ? 'text-white' : 'text-slate-400 hover:text-slate-200'
               }`}
               aria-label={`Navigate to ${item.label}`}
@@ -83,7 +84,7 @@ export default function MobileBottomNav({ activeSection }) {
 
               {/* Label */}
               <span
-                className={`text-[10px] tracking-tight mt-1 transition-colors ${
+                className={`text-[9px] sm:text-[10px] leading-tight text-center truncate w-full mt-0.5 transition-colors ${
                   isActive ? 'font-bold text-white' : 'font-medium text-slate-400'
                 }`}
               >

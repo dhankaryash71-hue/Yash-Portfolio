@@ -10,7 +10,9 @@ import {
   Code, 
   Sparkles, 
   ArrowUpRight,
-  MessageSquare
+  MessageSquare,
+  Loader2,
+  ExternalLink
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { TechIcons } from '../data/techIcons';
@@ -20,7 +22,9 @@ export default function Contact() {
 
   const [copiedType, setCopiedType] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
+  const [statusMessage, setStatusMessage] = useState('');
 
   const handleCopy = (text, type) => {
     navigator.clipboard.writeText(text);
@@ -30,22 +34,57 @@ export default function Contact() {
     }, 2000);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setStatus('error');
+      setStatusMessage('Please fill out all required fields.');
       return;
     }
-    // Prepare mailto link as fallback to open email client with prefilled details
-    const mailtoUrl = `mailto:${personal.email}?subject=${encodeURIComponent(
-      formData.subject || `Portfolio Message from ${formData.name}`
-    )}&body=${encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-    )}`;
-    window.location.href = mailtoUrl;
 
-    setStatus('success');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(true);
+    setStatus(null);
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/dhankaryash71@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: formData.subject ? `[Portfolio] ${formData.subject}` : `[Portfolio] Message from ${formData.name}`,
+          message: formData.message,
+          _template: "table",
+          _captcha: "false"
+        })
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success !== "false") {
+        setStatus('success');
+        setStatusMessage('Your message has been sent successfully! It was delivered directly to dhankaryash71@gmail.com.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error(data.message || 'Direct submission failed');
+      }
+    } catch (err) {
+      console.warn("FormSubmit fetch error, falling back to mail client:", err);
+      // Fallback: open email client
+      const mailtoUrl = `mailto:${personal.email}?subject=${encodeURIComponent(
+        formData.subject || `Portfolio Message from ${formData.name}`
+      )}&body=${encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      )}`;
+      window.location.href = mailtoUrl;
+
+      setStatus('fallback');
+      setStatusMessage('Opened your email client with your message prefilled for dhankaryash71@gmail.com.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -312,25 +351,53 @@ export default function Contact() {
                 </div>
 
                 {status === 'success' && (
-                  <div className="p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 text-xs font-medium flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-400" />
-                    <span>Your message is ready! Opening your email client to send to dhankaryash71@gmail.com.</span>
+                  <div className="p-3.5 rounded-xl bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 text-xs font-medium flex items-center gap-2.5 shadow-md shadow-emerald-950/30">
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>{statusMessage}</span>
                   </div>
                 )}
 
                 {status === 'error' && (
-                  <div className="p-3 rounded-xl bg-rose-950/60 border border-rose-500/30 text-rose-300 text-xs font-medium">
-                    Please fill out all required fields.
+                  <div className="p-3.5 rounded-xl bg-rose-950/70 border border-rose-500/40 text-rose-300 text-xs font-medium shadow-md shadow-rose-950/30">
+                    {statusMessage}
                   </div>
                 )}
 
-                <button
-                  type="submit"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 shadow-md shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 cursor-pointer"
-                >
-                  <span>Send Message</span>
-                  <Send className="w-4 h-4" />
-                </button>
+                {status === 'fallback' && (
+                  <div className="p-3.5 rounded-xl bg-amber-950/70 border border-amber-500/40 text-amber-300 text-xs font-medium shadow-md shadow-amber-950/30">
+                    {statusMessage}
+                  </div>
+                )}
+
+                <div className="flex flex-wrap items-center gap-4 pt-1">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 shadow-md shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 cursor-pointer"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-white" />
+                        <span>Sending Message...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <Send className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+
+                  <a
+                    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${personal.email}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-purple-300 transition-colors py-2"
+                  >
+                    <span>Open in Gmail Web</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
               </form>
             </div>
 
